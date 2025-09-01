@@ -31,3 +31,13 @@ kubectl get configmaps -n ${NAMESPACE_NAME}
 kubectl apply -f ../k8s/prometheus-deployment.yaml 
 
 kubectl get pods -n ${NAMESPACE_NAME}
+
+kubectl apply -f ../k8s/grafana-dashboard-provisioning-configmap.yaml 
+
+kubectl apply -f ../k8s/grafana-dashboards-configmap.yaml
+
+kubectl get configmaps -n ${NAMESPACE_NAME}
+
+kubectl apply -f ../k8s/grafana-deployment.yaml
+
+kubectl get pods -n ${NAMESPACE_NAME}

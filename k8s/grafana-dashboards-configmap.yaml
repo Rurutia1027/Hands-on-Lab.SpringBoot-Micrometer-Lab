@@ -1,0 +1,132 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboards
+  namespace: hands-on-lab
+data:
+  grafana-dashboard1.json: |
+    {
+      "annotations": {
+        "list": []
+      },
+      "editable": true,
+      "gnetId": null,
+      "graphTooltip": 0,
+      "id": null,
+      "iteration": 1693560000000,
+      "links": [],
+      "panels": [
+        {
+          "title": "HTTP Request Duration",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "rate(http_request_duration_seconds_sum[1m]) / rate(http_request_duration_seconds_count[1m])",
+              "legendFormat": "{{method}} {{uri}}",
+              "refId": "A"
+            }
+          ],
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "title": "Active HTTP Requests",
+          "type": "gauge",
+          "targets": [
+            {
+              "expr": "sum(http_server_requests_active_seconds_count)",
+              "refId": "A"
+            }
+          ],
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "title": "FooService Method Calls",
+          "type": "table",
+          "targets": [
+            {
+              "expr": "sum by (method) (foo_service_calls)",
+              "refId": "A"
+            }
+          ]
+        },
+        {
+          "title": "FooService Method Duration Heatmap",
+          "type": "heatmap",
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.95, sum(rate(foo_service_methods_bucket[1m])) by (le, method))",
+              "refId": "A"
+            }
+          ],
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "title": "JVM Memory Usage",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "jvm_memory_used_bytes / jvm_memory_max_bytes * 100",
+              "refId": "A"
+            }
+          ],
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 0
+          },
+          "unit": "percent"
+        },
+        {
+          "title": "JVM Threads Live",
+          "type": "table",
+          "targets": [
+            {
+              "expr": "jvm_threads_live",
+              "refId": "A"
+            }
+          ],
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "refresh": "5s",
+      "schemaVersion": 36,
+      "style": "dark",
+      "tags": [
+        "springboot",
+        "micrometer",
+        "prometheus"
+      ],
+      "templating": {
+        "list": []
+      },
+      "time": {
+        "from": "now-15m",
+        "to": "now"
+      },
+      "timepicker": {},
+      "timezone": "",
+      "title": "SpringBoot Micrometer Monitoring",
+      "uid": "springboot-micrometer-dashboard",
+      "version": 1
+    }
