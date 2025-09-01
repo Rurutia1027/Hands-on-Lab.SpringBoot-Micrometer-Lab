@@ -18,6 +18,7 @@ services:
     volumes:
       - hands-on-prometheus-data:/prometheus
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/rules:/etc/prometheus/rules
     restart: unless-stopped
     networks:
       - hands-on-network
