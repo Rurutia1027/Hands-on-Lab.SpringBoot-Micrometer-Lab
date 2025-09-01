@@ -17,30 +17,65 @@ By the end of this lab, participants will be able to:
 
 
 ## Proposed Repo Structure 
-
 ```
-springboot-micrometer-hol/
-├── springboot-micrometer-hol/        # The Spring Boot app
+Hands-on-Lab.SpringBoot-Micrometer-Lab/
+├── README.md
+├── bin/
+│   └── setup-k8s-cluster.sh          # Script to create K8s cluster
+├── configs/
+│   └── kind-config.yaml              # KIND cluster configuration
+├── k8s/
+│   ├── springboot-deployment.yaml
+│   ├── prometheus-deployment.yaml
+│   ├── prometheus-configmap.yaml
+│   └── grafana-deployment.yaml
+├── springboot-micrometer-hol/
 │   ├── pom.xml
 │   ├── src/
 │   │   └── main/
-│   │       ├── java/
-│   │       │   └── com/hol/springbootmicrometer/
-│   │       │       ├── SpringBootMicrometerLabApplication.java
-│   │       │       └── controller/
-│   │       │           └── HelloController.java
+│   │       ├── java/com/hol/springbootmicrometer/
+│   │       │   ├── SpringBootMicrometerHolApplication.java
+│   │       │   └── controller/HelloController.java
 │   │       └── resources/
-│   │           └── application.properties
-│   ├── docker-compose/                         # Local dev environment
-│   │   ├── docker-compose.yaml                 # Dev environment: Spring Boot + Prometheus + Grafana
-│   │   ├── docker-compose-docker.yaml          # Includes Spring Boot built via Jib Docker image
-│   │   └── prometheus/
-│   │       └── prometheus.yml
-├── k8s/                               # Kubernetes manifests
-│   ├── springboot-deployment.yaml
-│   ├── prometheus-deployment.yaml
-│   └── grafana-deployment.yaml
-└── README.md                           # Root README describing the full lab
+│   │           ├── application.yaml
+│   │           └── application-docker.yaml
+│   └── docker-compose/
+│       ├── docker-compose.yaml           # Dev environment: Prometheus + Grafana
+│       ├── docker-compose-docker.yaml    # Includes Spring Boot Docker image
+│       └── prometheus/
+│           └── prometheus.yml            # Prometheus configuration
+```
+
+## Metrics Flow  
+
+### Environment Verification Table 
+- **Spring Boot**: `curl http://localhost:8080/actuator`
+
+- **Micrometer**: `curl http://localhost:8080/actuator/prometheus`
+
+- **Prometheus**: `http://localhost:31000` -> Status -> Targets
+
+- **Grafana**: `http://localhost:32000` -> Data source -> Panels 
+
+### Metrics Flow Diagram 
+```
+Spring Boot App (8080)
+        │
+        │ exposes /actuator and /actuator/prometheus
+        ▼
+    Micrometer
+        │
+        │ collects metrics
+        ▼
+    Prometheus (31000)
+        │
+        │ scrapes metrics
+        ▼
+    Grafana (32000)
+        │
+        │ visualizes metrics
+        ▼
+   Dashboard / Panels
 ```
 
 ## Quick Start 

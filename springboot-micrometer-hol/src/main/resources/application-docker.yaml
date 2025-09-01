@@ -1,0 +1,19 @@
+server:
+  port: 8080   # inside container, mapped to host via Docker / Jib
+
+spring:
+  application:
+    name: springboot-micrometer-hol
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"     # expose all actuator endpoints
+  endpoint:
+    prometheus:
+      enabled: true
+
+management.metrics.export:
+  prometheus:
+    enabled: true

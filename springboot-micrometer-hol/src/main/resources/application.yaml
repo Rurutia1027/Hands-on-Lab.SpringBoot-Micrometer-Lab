@@ -1,0 +1,20 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: springboot-micrometer-hol
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"     # expose all actuator endpoints
+  endpoint:
+    prometheus:
+      enabled: true
+
+# Micrometer default config
+management.metrics.export:
+  prometheus:
+    enabled: true
