@@ -6,13 +6,13 @@ scrape_configs:
   - job_name: 'springboot-app'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['host.docker.internal:8080']  # Spring Boot app running on host
+      - targets: ['hands-on-spring-app:8080']  # Spring Boot app running on host
 
   # Optional: custom metrics job
   - job_name: 'custom-metrics'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['host.docker.internal:8080']
+      - targets: ['hands-on-spring-app:8080']
     relabel_configs:
       # Example: keep only metrics starting with "custom_"
       - source_labels: [__name__]

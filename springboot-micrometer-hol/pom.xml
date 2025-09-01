@@ -14,6 +14,76 @@
     <relativePath/>
   </parent>
 
+  <profiles>
+    <!-- Remote registry push
+         `mvn clean compile jib:build -Pdocker-push -DskipTests` -->
+    <profile>
+      <id>docker-push</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.google.cloud.tools</groupId>
+            <artifactId>jib-maven-plugin</artifactId>
+            <version>3.4.4</version>
+            <configuration>
+              <from>
+                <image>eclipse-temurin:17</image>
+              </from>
+              <to>
+                <image>docker.io/nanachi1027/springboot-micrometer-hol:latest</image>
+                <auth>
+                  <username>${env.DOCKER_USERNAME}</username>
+                  <password>${env.DOCKER_PASSWORD}</password>
+                </auth>
+              </to>
+              <container>
+                <ports>
+                  <port>8080</port>
+                </ports>
+              </container>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- Docker Local
+         `mvn clean compile jib:build -Pdocker-local -DskipTests`-->
+    <profile>
+      <id>docker-local</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.google.cloud.tools</groupId>
+            <artifactId>jib-maven-plugin</artifactId>
+            <version>3.4.4</version>
+            <configuration>
+              <from>
+                <image>eclipse-temurin:17</image>
+              </from>
+              <to>
+                <image>docker.io/nanachi1027/springboot-micrometer-hol:latest</image>
+              </to>
+              <container>
+                <ports>
+                  <port>8080</port>
+                </ports>
+              </container>
+            </configuration>
+            <executions>
+              <execution>
+                <id>dockerBuild</id>
+                <goals>
+                  <goal>dockerBuild</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <properties>
     <java.version>17</java.version>
     <spring-boot.version>3.3.2</spring-boot.version>
@@ -44,18 +114,6 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-
-      <!-- Jib Maven Plugin -->
-      <plugin>
-        <groupId>com.google.cloud.tools</groupId>
-        <artifactId>jib-maven-plugin</artifactId>
-        <version>3.3.1</version>
-        <configuration>
-          <to>
-            <image>springboot-micrometer-lab:latest</image>
-          </to>
-        </configuration>
       </plugin>
     </plugins>
   </build>

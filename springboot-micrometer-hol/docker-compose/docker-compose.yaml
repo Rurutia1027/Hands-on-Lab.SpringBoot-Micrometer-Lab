@@ -1,45 +1,46 @@
 # for local dev env setup
-#  docker compose -p hands-on-lab -f docker-compose.yaml up -d
+# docker compose -p hands-on-lab -f docker-compose.yaml up -d
+# docker compose -p hands-on-lab -f docker-compose.yaml down
 services:
   springboot:
-    image: springboot-micrometer-hol:latest
-    container_name: hands-on_springboot
+    image: nanachi1027/springboot-micrometer-hol:latest
+    container_name: hands-on-spring-app
     ports:
       - "8080:8080"
     networks:
-      - hands-on-lab_spring-micrometer
+      - hands-on-network
 
   prometheus:
     image: prom/prometheus:latest
-    container_name: hands-on_prometheus
+    container_name: hands-on-prometheus
     ports:
       - "31000:9090"   # host port 31000 → container port 9090
     volumes:
-      - hands-on-lab_prometheus_data:/prometheus
+      - hands-on-prometheus-data:/prometheus
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     restart: unless-stopped
     networks:
-      - hands-on-lab_spring-micrometer
+      - hands-on-network
 
   grafana:
     image: grafana/grafana:latest
-    container_name: hands-on_grafana
+    container_name: hands-on-grafana
     ports:
       - "32000:3000"   # host port 32000 → container port 3000
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
-      - hands-on-lab_grafana_data:/var/lib/grafana
+      - hands-on-grafana-data:/var/lib/grafana
     depends_on:
       - prometheus
     restart: unless-stopped
     networks:
-      - hands-on-lab_spring-micrometer
+      - hands-on-network
 
 volumes:
-  hands-on-lab_prometheus_data:
-  hands-on-lab_grafana_data:
+  hands-on-prometheus-data:
+  hands-on-grafana-data:
 
 networks:
-  hands-on-lab_spring-micrometer:
+  hands-on-network:
