@@ -1,0 +1,66 @@
+groups:
+  - name: actuator_metrics
+    interval: 30s
+    rules:
+      # ----------------------------
+      # Actuator Native Metrics
+      # ----------------------------
+      - record: http_server_requests_total
+        expr: sum by (method, status, uri) (http_server_requests_seconds_count)
+        labels:
+          source: actuator
+      - record: http_server_request_duration_seconds_avg
+        expr: sum by (method, status, uri) (http_server_requests_seconds_sum)
+          / sum by (method, status, uri) (http_server_requests_seconds_count)
+        labels:
+          source: actuator
+  - name: aop_service_layer_metrics
+    interval: 30s
+    rules:
+      # ----------------------------
+      # Customized AOP Layer Metrics
+      # ----------------------------
+      - record: foo_service_method_duration_avg
+        expr: sum by (method) (foo_service_methods_sum)
+          / sum by (method) (foo_service_methods_count)
+        labels:
+          source: aop
+
+      - record: foo_service_methods_total
+        expr: sum by (method) (foo_service_calls)
+        labels:
+          source: aop
+
+      # Alerts
+      - alert: FooServiceMethodSlow
+        expr: foo_service_method_duration_avg > 1
+        for: 1m
+        labels:
+          serverity: warning
+        annotations:
+          summary: "FooService method avg duration > 1s"
+
+  - name: interceptor_servlet_layer_metrics
+    interval: 30s
+    rules:
+      # ---------------------------------------------
+      # Customized Interceptor Servlet Layer Metrics
+      # ---------------------------------------------
+      - record: http_request_duration_avg
+        expr: sum by (method, uri) (http_request_duration_seconds_sum)
+          / sum by (method, uri) (http_request_duration_seconds_count)
+        labels:
+          source: interceptor
+
+      - record: http_request_total
+        expr: sum by (method, uri) (http_request_duration_seconds_count)
+        labels:
+          source: interceptor
+
+      - alert: HighHttpRequestLatency
+        expr: http_request_duration_avg > 1
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "HTTP request avg duration > 1s"
