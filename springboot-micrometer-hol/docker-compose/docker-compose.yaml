@@ -1,6 +1,14 @@
 # for local dev env setup
 #  docker compose -p hands-on-lab -f docker-compose.yaml up -d
 services:
+  springboot:
+    image: springboot-micrometer-hol:latest
+    container_name: hands-on_springboot
+    ports:
+      - "8080:8080"
+    networks:
+      - hands-on-lab_spring-micrometer
+
   prometheus:
     image: prom/prometheus:latest
     container_name: hands-on_prometheus
