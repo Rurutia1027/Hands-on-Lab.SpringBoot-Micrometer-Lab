@@ -34,7 +34,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build & Push Docker Image via Jib
+      - name: Build & Push Docker Image via Maven Jib Plugin
         run: |
           cd springboot-micrometer-hol
           mvn clean compile jib:build -Pdocker-push -DskipTests

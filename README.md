@@ -1,4 +1,4 @@
-# Hands-on Lab: Spring Boot + Micrometer + Prometheus + Jib + Kubernetes 
+# Hands-on Lab: Spring Boot + Micrometer + Prometheus + Jib + Kubernetes | [![CI Pipeline for Hands-on Lab](https://github.com/Rurutia1027/Hands-on-Lab.SpringBoot-Micrometer-Lab/actions/workflows/ci-pipeline.yaml/badge.svg)](https://github.com/Rurutia1027/Hands-on-Lab.SpringBoot-Micrometer-Lab/actions/workflows/ci-pipeline.yaml)
 
 ## Objective  
 By the end of this lab, participants will be able to: 
