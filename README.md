@@ -79,6 +79,30 @@ Spring Boot App (8080)
 ```
 
 ## Quick Start 
-`todo `
 
+### Docker Image 
+The Spring Boot Micrometer Hands-on Lab is available as a [Docker image](https://hub.docker.com/r/nanachi1027/springboot-micrometer-hol) for easy local or remote use. 
+
+#### Image Details 
+
+| Repository | Tag | Size | Last Updated |
+|------------|-----|------|--------------|
+| `nanachi1027/springboot-micrometer-hol` | `latest` | 209.6 MB | 8 minutes ago |
+
+#### Pull the Image 
+To pull the image from Docker Hub:
+
+```bash
+docker pull nanachi1027/springboot-micrometer-hol:latest
+```
+
+**Note**: Running the image standalone is not recommended, since the application configuration depends on external Prometheus and Grafana services. It is suggested to use the provided [docker-compose.yaml](./springboot-micrometer-hol/docker-compose/docker-compose.yaml) in this project for proper setup and integration.
+
+```bash 
+# setup docker compose 
+cd docker-compose/ && docker compose -p hands-on-lab -f docker-compose.yaml up -d
+
+# shutdown docker compose 
+docker compose -p hands-on-lab -f docker-compose.yaml down
+```
 
