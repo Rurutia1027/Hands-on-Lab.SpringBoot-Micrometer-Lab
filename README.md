@@ -148,7 +148,7 @@ The Grafana dashboards are preloaded via ConfigMaps and visualize the same metri
 
 - Grafana Dashabord
   
-![Uploading Screenshot 2025-09-01 at 22.52.54.png…]()
+<img width="1797" height="550" alt="Screenshot 2025-09-01 at 22 54 13" src="https://github.com/user-attachments/assets/fc0f6432-d00b-4367-8311-a11b1b5d2654" />
 
 <img width="1794" height="1106" alt="Screenshot 2025-09-01 at 22 44 32" src="https://github.com/user-attachments/assets/0b5411af-5629-40b7-ba1f-94273c936eaf" />
 
