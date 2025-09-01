@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springboot-app
+  namespace: hands-on-lab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: springboot
+  template:
+    metadata:
+      labels:
+        app: springboot
+    spec:
+      containers:
+        - name: springboot
+          image: nanachi1027/springboot-micrometer-hol:latest
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: springboot-service
+  namespace: hands-on-lab
+spec:
+  type: NodePort    
+  selector:
+    app: springboot
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 31808
