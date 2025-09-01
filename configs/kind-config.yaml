@@ -1,0 +1,19 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      # Spring Boot App NodePort
+      - containerPort: 8080        # Container port inside the pod
+        hostPort: 8180             # Accessible from host
+        protocol: TCP
+
+      # Prometheus NodePort
+      - containerPort: 9090        # Container port for Prometheus
+        hostPort: 31000
+        protocol: TCP
+
+      # Grafana NodePort
+      - containerPort: 3000        # Container port for Grafana
+        hostPort: 32000
+        protocol: TCP
