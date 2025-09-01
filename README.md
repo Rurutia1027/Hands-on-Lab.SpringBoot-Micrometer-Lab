@@ -17,33 +17,52 @@ By the end of this lab, participants will be able to:
 
 
 ## Proposed Repo Structure 
+### for Docker Compose 
 ```
-Hands-on-Lab.SpringBoot-Micrometer-Lab/
-├── README.md
-├── bin/
-│   └── setup-k8s-cluster.sh          # Script to create K8s cluster
-├── configs/
-│   └── kind-config.yaml              # KIND cluster configuration
-├── k8s/
-│   ├── springboot-deployment.yaml
-│   ├── prometheus-deployment.yaml
-│   ├── prometheus-configmap.yaml
-│   └── grafana-deployment.yaml
-├── springboot-micrometer-hol/
-│   ├── pom.xml
-│   ├── src/
-│   │   └── main/
-│   │       ├── java/com/hol/springbootmicrometer/
-│   │       │   ├── SpringBootMicrometerHolApplication.java
-│   │       │   └── controller/HelloController.java
-│   │       └── resources/
-│   │           ├── application.yaml
-│   │           └── application-docker.yaml
-│   └── docker-compose/
-│       ├── docker-compose.yaml           # Dev environment: Prometheus + Grafana
-│       ├── docker-compose-docker.yaml    # Includes Spring Boot Docker image
-│       └── prometheus/
-│           └── prometheus.yml            # Prometheus configuration
+docker-compose/
+├── docker-compose.yaml                 # Main Compose file: Spring Boot + Prometheus + Grafana
+├── grafana/
+│   └── provisioning/
+│       └── dashboards/
+│           ├── dashboard.yaml         # Grafana provisioning config
+│           └── json/
+│               └── grafana-dashboard1.json  # Pre-configured dashboard JSON
+└── prometheus/
+    ├── prometheus.yml                 # Prometheus scrape config (targets, metrics_path, etc.)
+    └── rules/
+        └── prometheus-rules.yml      # Prometheus recording/alerting rules
+```
+
+### for K8S  
+```
+k8s/
+├── namespace.yaml                      # Kubernetes namespace definition
+├── springboot-deployment.yaml          # Spring Boot Deployment + Service (NodePort)
+├── prometheus-deployment.yaml          # Prometheus Deployment + Service
+├── prometheus-configmap.yaml           # ConfigMap with prometheus.yml + rules
+├── grafana-deployment.yaml             # Grafana Deployment + Service
+├── grafana-dashboard-provisioning-configmap.yaml  # ConfigMap for dashboards provisioning
+└── grafana-dashboards-configmap.yaml   # ConfigMap containing JSON dashboards
+```
+
+### for microservices 
+```
+springboot-micrometer-hol/
+├── pom.xml                             # Maven project descriptor
+├── docker-compose/                     # Docker Compose setup for local dev
+│   ├── docker-compose.yaml
+│   ├── grafana/
+│   └── prometheus/
+└── src/
+    └── main/
+        └── java/
+            └── com/hol/springbootmicrometer/
+                ├── SpringMicrometerApplication.java   # Spring Boot main class
+                ├── config/                             # Configuration (Micrometer, AOP, Interceptor)
+                ├── controller/                         # REST endpoints (e.g., /hello)
+                ├── metrics/                            # Custom metrics classes (AOP / interceptor)
+                ├── repository/                         # Repository layer (dummy or DB)
+                └── service/                            # Business logic service layer
 ```
 
 ## Metrics Flow  
